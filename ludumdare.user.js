@@ -4,8 +4,12 @@
 // @description	   Displays performance history on Ludum Dare profile pages
 // @author		   Alex Nisnevich (BadgerPriest)
 // @include        http://www.ludumdare.com/compo/author/*
-// @version        1.0
+// @version        1.0.1
 // ==/UserScript==
+
+// @history
+// - 1.0.1 (9/17/13) - Firefox fix
+// - 1.0.0 (9/17/13) - Initial release
 
 // a function that loads jQuery and calls a callback function when jQuery has finished loading
 function addJQuery(callback) {
@@ -82,9 +86,12 @@ function main() {
 				$log.append($.parseHTML(data));
 
 				var table = $log.find('#compo2 table').last();
+
 				table.find('tr').each(function () {
-					var category = $(this).children()[1].innerText.split('(')[0];
-					var score = parseFloat($(this).children()[2].innerText);
+					console.log($(this).children());
+
+					var category = $($(this).children()[1]).text().split('(')[0];
+					var score = parseFloat($($(this).children()[2]).text());
 
 					if (category != "Coolness") {
 						results[compoNumber][category] = score;
