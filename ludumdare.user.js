@@ -4,10 +4,11 @@
 // @description	   Displays performance history on Ludum Dare profile pages
 // @author		   Alex Nisnevich (BadgerPriest)
 // @include        http://www.ludumdare.com/compo/author/*
-// @version        1.0.1
+// @version        1.0.2
 // ==/UserScript==
 
 // @history
+// - 1.0.2 (9/17/13) - Ignore entries without scores; hardcoded y-axis
 // - 1.0.1 (9/17/13) - Firefox fix
 // - 1.0.0 (9/17/13) - Initial release
 
@@ -121,6 +122,10 @@ function main() {
 
 		// populate results
 		$.each(results, function (num, scores) {
+			if (scores['Overall'] == null) {
+				return;
+			}
+
 			var row = [num];
 			for (var i = 1; i < categories.length; i++) {
 				row[i] = null;
@@ -147,7 +152,7 @@ function main() {
 	  new google.visualization.LineChart(document.getElementById('visualization')).
 	      draw(data, {curveType: "function",
 	                  width: 600, height: 400,
-	                  vAxis: {minValue: 1, maxValue: 5},
+	                  vAxis: {ticks: [1, 2, 3, 4, 5], format:'#'},
 	                  chartArea: {height: '90%', width: '78%', left: 20},
 	                  series: {0: {color: 'black', lineWidth: 4}},
 	                  focusTarget: 'category'
